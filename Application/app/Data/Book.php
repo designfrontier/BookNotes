@@ -10,13 +10,17 @@ class Book extends EntityObject
 	{
 		$return = parent::validateFactoryInput($rawData);
 		if ((false !== $return) && is_array($return)) { // Check if Raw Data Passed Validation in Parent
-			if (isset($rawData['title']) && !empty($rawData['title'])) { // Validate Required Last Name Parameter
+			if (isset($rawData['title']) && !empty($rawData['title'])) { // Validate Required Title Parameter
 				$return['title'] = (string) $rawData['title'];
-			} else { // Middle of Validate Required Last Name Parameter
+			} else { // Middle of Validate Required Title Parameter
 				throw new MissingRequiredParameterException('Missing required title parameter');
-			} // End of Validate Required Last Name Parameter
+			} // End of Validate Required Title Parameter
+			if (isset($rawData['type']) && !empty($rawData['type'])) { // Validate Required Type Parameter
+				$return['type'] = (string) $rawData['type'];
+			} else { // Middle of Validate Required Type Parameter
+				throw new MissingRequiredParameterException('Missing required type parameter');
+			} // End of Validate Required Type Parameter
 
-			// @todo Add Validation of Book Type
 			// @todo Add Validation of Published Date
 			// @todo Add Validation of Notes
 			// @todo Add Validation of Category
@@ -29,7 +33,7 @@ class Book extends EntityObject
 	{
 		return array_merge(parent::initializeDataAttribute(), array(
 			'title'             => null,
-			'bookType'          => null,
+			'type'              => null,
 			'publishedDate'     => null,
 			'notes'             => array(),
 			'categories'        => array()
@@ -39,5 +43,10 @@ class Book extends EntityObject
 	protected function getRestrictedAttributesArray()
 	{
 		return array_merge(parent::getRestrictedAttributesArray(), array('notes', 'categories'));
+	}
+
+	public function __toString()
+	{
+		return $this->data['title'];
 	}
 }

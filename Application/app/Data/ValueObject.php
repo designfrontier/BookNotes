@@ -14,7 +14,7 @@ abstract class ValueObject
 	{
 		$return = false;
 		if ($parsedData = static::validateFactoryInput($rawData)) { // Validate Passed Raw Data Parameter
-			$return = static::__construct($parsedData);
+			$return = new static($parsedData);
 		} // End of Validate Passed Raw Data Parameter
 		return $return;
 	}
@@ -34,11 +34,11 @@ abstract class ValueObject
 	protected function parseRawData(array $rawDataObjectDetails)
 	{
 		foreach (array_keys($this->data) as $currentAttributeName) { // Loop through Value Object's Data Fields
-			if (isset($rawDataObjectDetails->{$currentAttributeName})) { // Check for Data Field Value in Raw Data
+			if (isset($rawDataObjectDetails[$currentAttributeName])) { // Check for Data Field Value in Raw Data
 				if (method_exists($this, 'set_' . $currentAttributeName)) { // Check for Data Field Setter Method
-					$this->{'set_' . $currentAttributeName}($rawDataObjectDetails->{$currentAttributeName});
+					$this->{'set_' . $currentAttributeName}($rawDataObjectDetails[$currentAttributeName]);
 				} else { // Middle of Check for Data Field Setter Method
-					$this->data[$currentAttributeName] = $rawDataObjectDetails->{$currentAttributeName};
+					$this->data[$currentAttributeName] = $rawDataObjectDetails[$currentAttributeName];
 				} // End of Check for Data Field Setter Method
 			} // End of Check for Data Field Value in Raw Data
 		} // End of Loop through Value Object's Data Fields
