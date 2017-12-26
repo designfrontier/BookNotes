@@ -10,3 +10,4 @@
 /Application/yarn-error.log
 /Application/.env
 /Vagrant/.vagrant
+.DS_Store
