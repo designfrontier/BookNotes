@@ -1,0 +1,12 @@
+/Application/node_modules
+/Application/public/hot
+/Application/public/storage
+/Application/storage/*.key
+/Application/vendor
+/Application/.idea
+/Application/Homestead.json
+/Application/Homestead.yaml
+/Application/npm-debug.log
+/Application/yarn-error.log
+/Application/.env
+/Vagrant/.vagrant
