@@ -14,7 +14,6 @@ abstract class BaseSeeder extends Seeder
 
 	public function __construct()
 	{
-		parent::__construct();
 		if (empty($this->tableName)) { // Validate Table Name Not Empty
 			throw new Exception(sprintf('%s->tableName Cannot be empty', get_called_class())); // @todo Change Exception Type Thrown
 		} // End of Validate Table Name Not Empty
@@ -44,6 +43,6 @@ abstract class BaseSeeder extends Seeder
 
 	protected function replaceEmptyValuesWithNulls(string $columnName)
 	{
-		DB::update(sprintf('UPDATE TABLE `%1$s` SET `%2$s` = NULL WHERE `%2$s` = "";', $this->tableName, $columnName));
+		DB::update(sprintf('UPDATE `%1$s` SET `%2$s` = NULL WHERE `%2$s` = "";', $this->tableName, $columnName));
 	}
 }
