@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/books', 'Books@index');
+Route::get('/books/{id}', 'Books@single');
+
+Route::get('/authors', 'Authors@index');
+Route::get('/authors/{id}', 'Authors@single');
+
+Route::get('/categories', 'Categories@index');
+Route::get('/categories/{id}', 'Categories@single');
