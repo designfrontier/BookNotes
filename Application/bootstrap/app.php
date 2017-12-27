@@ -43,6 +43,20 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
+| Configure (Monolog) Logging
+|--------------------------------------------------------------------------
+|
+| We will want to change the log formatter and add any handlers and/or
+| processors here.
+|
+*/
+$app->configureMonologUsing(function ($monolog) use ($app) {
+	$monolog->pushHandler($handler = new Monolog\Handler\StreamHandler($app->storagePath() . '/logs/laravel.log', Monolog\Logger::toMonologLevel(config('app.log_level'))));
+	$handler->setFormatter(new Monolog\Formatter\JsonFormatter());
+});
+
+/*
+|--------------------------------------------------------------------------
 | Return The Application
 |--------------------------------------------------------------------------
 |
