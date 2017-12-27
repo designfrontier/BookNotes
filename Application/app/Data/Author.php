@@ -10,8 +10,10 @@ class Author extends EntityObject
 	{
 		$return = parent::validateFactoryInput($rawData);
 		if ((false !== $return) && is_array($return)) { // Check if Raw Data Passed Validation in Parent
-			
-			// @todo Add Validation of First Name
+			if (isset($rawData['first_name']) && !empty($rawData['first_name'])) { // Validate First Name Parameter
+				$return['firstName'] = (string) $rawData['first_name'];
+			} // End of Validate First Name Parameter
+
 			// @todo Add Validation of Middle Name
 			
 			if (isset($rawData['last_name']) && !empty($rawData['last_name'])) { // Validate Required Last Name Parameter
@@ -39,5 +41,13 @@ class Author extends EntityObject
 	protected function getRestrictedAttributesArray()
 	{
 		return array_merge(parent::getRestrictedAttributesArray(), array('pseudonyms'));
+	}
+
+	public function __toString()
+	{
+		$return  = (!empty($this->data['firstName']) ? $this->data['firstName'] . ' ' : null);
+		$return .= (!empty($this->data['middleName']) ? $this->data['middleName'] . ' ' : null);
+		$return .= $this->data['lastName'];
+		return  $return;
 	}
 }
