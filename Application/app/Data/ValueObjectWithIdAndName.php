@@ -24,7 +24,7 @@ abstract class ValueObjectWithIdAndName extends ValueObjectWithId
 		return array_merge(parent::initializeDataAttribute(), array('name' => null));
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->data['name'];
 	}

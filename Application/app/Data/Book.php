@@ -44,7 +44,7 @@ class Book extends EntityObject
 		return array_merge(parent::getRestrictedAttributesArray(), array('authors', 'categories', 'notes'));
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->data['title'];
 	}

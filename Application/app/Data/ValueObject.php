@@ -61,14 +61,14 @@ abstract class ValueObject
 		throw new RestrictedAttributeException(sprintf('You cannot set any attributes on %1$s (including: %1$s->%2$s)', get_called_class(), $attributeName));
 	}
 
-	abstract public function __toString();
+	abstract public function __toString(): string;
 
-	public function toString()
+	public function toString(): string
 	{
 		return $this->__toString();
 	}
 
-	public function toJsonString($prettyPrint = false)
+	public function toJsonString($prettyPrint = false): string
 	{
 		$prettyPrint = (bool) $prettyPrint;
 		return json_encode($this->toArray(), $prettyPrint);

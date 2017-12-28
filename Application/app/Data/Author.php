@@ -41,7 +41,7 @@ class Author extends EntityObject
 		return array_merge(parent::getRestrictedAttributesArray(), array('books', 'pseudonyms'));
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		$return  = (!empty($this->data['firstName']) ? $this->data['firstName'] . ' ' : null);
 		$return .= (!empty($this->data['middleName']) ? $this->data['middleName'] . ' ' : null);
