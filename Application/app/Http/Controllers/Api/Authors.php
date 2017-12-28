@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Data\Author;
 use App\Models\Authors as AuthorsModel;

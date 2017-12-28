@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Data\EntityObject;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Models\EntityModel;
 use App\Traits\Validator;
 
-abstract class EntityController extends Controller
+abstract class EntityController extends BaseController
 {
 	use Validator;
 
 	protected $entityClassName;
 
 	protected $entityModelName;
+
+	protected $payloadIndexName;
 
 	public function __construct()
 	{
@@ -39,6 +41,9 @@ abstract class EntityController extends Controller
 		} else { // Middle of Check for (Required) Entity Model Name
 			throw new MissingRequiredAttributeException(sprintf('%s->entityModelName cannot be empty', get_called_class()));
 		} // End of Check for (Required) Entity Model Name
+		if (empty($this->payloadIndexName) || !is_string($this->payloadIndexName)) {
+			$this->payloadIndexName = $this->getClassNameWithoutNamespace(get_called_class());
+		}
 	}
 
 	protected function checkRetrieveFullyPopulatedEntityObject()
@@ -48,17 +53,48 @@ abstract class EntityController extends Controller
 
 	public function index()
 	{
-		return sprintf('<pre>%s</pre>', print_r((new $this->entityModelName())->fetchAll(), true));
+		$retrieved = (new $this->entityModelName())->fetchAll();
+		if (is_array($retrieved) && count($retrieved)) { // Check for Retrieved Entities from DB
+			$payload = array();
+			foreach ($retrieved as $currentEntityObject) { // Loop through Retrieved Entities
+				$payload[] = $currentEntityObject->toArray();
+			} // End of Loop through Retrieved Entities
+			unset($retrieved, $currentEntityObject);
+			$return = $this->entityOnlyDataResponse($payload);
+		} else { // Middle of Check for Retrieved Entities from DB
+			$return = $this->notFoundResponse();
+		} // End of Check for Retrieved Entities from DB
+		return $return;
 	}
 
 	public function single($id = null)
 	{
 		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
 			$retrieved = (new $this->entityModelName())->fetchById($id);
-			$return = '<pre>' . ($retrieved instanceof $this->entityClassName ? print_r($retrieved, true) : '[Not Found]') . '</pre>';
+			if ($retrieved instanceof $this->entityClassName) { // Check if Entity Retrieved from DB
+				$return = $this->entityOnlyDataResponse(array($retrieved->toArray()));
+			} else { // Middle of Check if Entity Retrieved from DB
+				$return = $this->notFoundResponse();
+			} // End of Check if Entity Retrieved from DB
 		} else { // Middle of Validate Passed ID Parameter
-			$return = sprintf('<pre>You passed an invalid ID: %s</pre>', $id);
+			$return = $this->errorResponse(sprintf('Invalid ID: %s', $id));
 		} // End of Validate Passed ID Parameter
 		return $return;
+	}
+
+	protected function notFoundResponse()
+	{
+		return $this->errorResponse(sprintf('%s not found', $this->getClassNameWithoutNamespace($this->entityClassName)), 404);
+	}
+
+	protected function entityOnlyDataResponse(array $responsePayloadData)
+	{
+		return $this->okResponse(array($this->payloadIndexName => $responsePayloadData));
+	}
+
+	protected function getClassNameWithoutNamespace(string $fullyNamespacedClassName)
+	{
+		$classNamePieces = explode('\\', $fullyNamespacedClassName);
+		return array_pop($classNamePieces);
 	}
 }

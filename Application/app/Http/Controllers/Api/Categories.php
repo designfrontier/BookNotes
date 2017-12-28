@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Data\Category;
 use App\Models\Categories as CategoriesModel;
+use App\Http\Controllers\Controller; // @todo Remove This
 
-class Categories extends Controller
+class Categories extends Controller // @todo Change Parent Class
 {
 	public function index()
 	{
