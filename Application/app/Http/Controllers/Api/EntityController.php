@@ -94,7 +94,7 @@ abstract class EntityController extends BaseController
 	public function single($id = null): JsonResponse
 	{
 		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
-			$retrieved = (new $this->entityModelName())->fetchById($id, $this->checkRetrieveFullyPopulatedEntityObject());
+			$retrieved = (new $this->entityModelName())->fetchById($filteredId, $this->checkRetrieveFullyPopulatedEntityObject());
 			if ($retrieved instanceof $this->entityClassName) { // Check if Entity Retrieved from DB
 				$return = $this->entityOnlyDataResponse(array($retrieved->toArray()));
 			} else { // Middle of Check if Entity Retrieved from DB
