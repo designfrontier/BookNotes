@@ -74,8 +74,25 @@ abstract class ValueObject
 		return json_encode($this->toArray(), $prettyPrint);
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
-		return $this->data;
+		return $this->filterArrayValuesForExport($this->data);
+	}
+
+	protected function filterArrayValuesForExport(array $arrayToWalk): array
+	{
+		$return = array();
+		foreach ($arrayToWalk as $currentIndex => $currentValue) { // Loop through Data Elements
+			if (is_object($currentValue) && method_exists($currentValue, 'toArray')) { // Check Current Value Data Type
+				$return[$currentIndex] = $currentValue->toArray();
+			} elseif (is_object($currentValue)) { // Middle of Check Current Value Data Type
+				$return[$currentIndex] = (array) $currentValue;
+			} elseif (is_array($currentValue)) { // Middle of Check Current Value Data Type
+				$return[$currentIndex] = $this->filterArrayValuesForExport($currentValue);
+			} else { // Middle of Check Current Value Data Type
+				$return[$currentIndex] = $currentValue;
+			} // End of Check Current Value Data Type
+		} // End of Loop through Data Elements
+		return $return;
 	}
 }

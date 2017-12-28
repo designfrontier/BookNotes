@@ -13,17 +13,14 @@ class Author extends EntityObject
 			if (isset($rawData['first_name']) && !empty($rawData['first_name'])) { // Validate First Name Parameter
 				$return['firstName'] = (string) $rawData['first_name'];
 			} // End of Validate First Name Parameter
-
-			// @todo Add Validation of Middle Name
-			
+			if (isset($rawData['middle_name']) && !empty($rawData['middle_name'])) { // Validate Middle Name Parameter
+				$return['middleName'] = (string) $rawData['middle_name'];
+			} // End of Validate Middle Name Parameter
 			if (isset($rawData['last_name']) && !empty($rawData['last_name'])) { // Validate Required Last Name Parameter
 				$return['lastName'] = (string) $rawData['last_name'];
 			} else { // Middle of Validate Required Last Name Parameter
 				throw new MissingRequiredParameterException('Missing required last name parameter (last_name)');
 			} // End of Validate Required Last Name Parameter
-			
-			// @todo Add Validation of Pseudonyms
-			
 		} // End of Check if Raw Data Passed Validation in Parent
 		return $return;
 	}
@@ -34,13 +31,14 @@ class Author extends EntityObject
 			'firstName'     => null,
 			'middleName'    => null,
 			'lastName'      => null,
+			'books'         => array(),
 			'pseudonyms'    => array()
 		));
 	}
 
 	protected function getRestrictedAttributesArray()
 	{
-		return array_merge(parent::getRestrictedAttributesArray(), array('pseudonyms'));
+		return array_merge(parent::getRestrictedAttributesArray(), array('books', 'pseudonyms'));
 	}
 
 	public function __toString()
@@ -49,5 +47,10 @@ class Author extends EntityObject
 		$return .= (!empty($this->data['middleName']) ? $this->data['middleName'] . ' ' : null);
 		$return .= $this->data['lastName'];
 		return  $return;
+	}
+
+	public function addBooks(array $booksToAdd): int
+	{
+		return $this->addArrayOfEntitiesToDataAttribute($booksToAdd, 'books', Book::class);
 	}
 }

@@ -22,8 +22,6 @@ class Book extends EntityObject
 			} // End of Validate Required Type Parameter
 
 			// @todo Add Validation of Published Date
-			// @todo Add Validation of Notes
-			// @todo Add Validation of Category
 
 		} // End of Check if Raw Data Passed Validation in Parent
 		return $return;
@@ -35,18 +33,29 @@ class Book extends EntityObject
 			'title'             => null,
 			'type'              => null,
 			'publishedDate'     => null,
-			'notes'             => array(),
-			'categories'        => array()
+			'authors'           => array(),
+			'categories'        => array(),
+			'notes'             => array()
 		));
 	}
 
 	protected function getRestrictedAttributesArray()
 	{
-		return array_merge(parent::getRestrictedAttributesArray(), array('notes', 'categories'));
+		return array_merge(parent::getRestrictedAttributesArray(), array('authors', 'categories', 'notes'));
 	}
 
 	public function __toString()
 	{
 		return $this->data['title'];
+	}
+
+	public function addCategories(array $categoriesToAdd): int
+	{
+		return $this->addArrayOfEntitiesToDataAttribute($categoriesToAdd, 'categories', Category::class);
+	}
+
+	public function addAuthors(array $authorsToAdd): int
+	{
+		return $this->addArrayOfEntitiesToDataAttribute($authorsToAdd, 'authors', Author::class);
 	}
 }

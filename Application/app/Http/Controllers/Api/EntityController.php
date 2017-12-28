@@ -46,14 +46,31 @@ abstract class EntityController extends BaseController
 		}
 	}
 
-	protected function checkRetrieveFullyPopulatedEntityObject()
+	protected function checkRetrieveFullyPopulatedEntityObject(): bool
 	{
-		// @todo Check the Input
+		switch (strtolower((string) \Request::get('full', false))) { // Check the Input
+
+			case '1':
+			case 'true':
+			case 'yes':
+				$return = true;
+				break;
+
+			case '':
+			case '0':
+			case 'false':
+			case 'no':
+			default:
+				$return = false;
+				break;
+
+		} // End of Check the Input
+		return $return;
 	}
 
 	public function index()
 	{
-		$retrieved = (new $this->entityModelName())->fetchAll();
+		$retrieved = (new $this->entityModelName())->fetchAll($this->checkRetrieveFullyPopulatedEntityObject());
 		if (is_array($retrieved) && count($retrieved)) { // Check for Retrieved Entities from DB
 			$payload = array();
 			foreach ($retrieved as $currentEntityObject) { // Loop through Retrieved Entities
@@ -70,7 +87,7 @@ abstract class EntityController extends BaseController
 	public function single($id = null)
 	{
 		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
-			$retrieved = (new $this->entityModelName())->fetchById($id);
+			$retrieved = (new $this->entityModelName())->fetchById($id, $this->checkRetrieveFullyPopulatedEntityObject());
 			if ($retrieved instanceof $this->entityClassName) { // Check if Entity Retrieved from DB
 				$return = $this->entityOnlyDataResponse(array($retrieved->toArray()));
 			} else { // Middle of Check if Entity Retrieved from DB

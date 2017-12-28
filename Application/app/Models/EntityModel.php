@@ -26,7 +26,11 @@ abstract class EntityModel extends BaseModel
 		} // End of Check for (Required) Entity Class Name
 	}
 
-	// abstract protected function populateEntity(EntityObject $entityToPopulate);
+	protected function populateEntity(EntityObject $entityToPopulate): EntityObject
+	{
+		// @todo Consider Moving this Functionality to Entity Object Itself
+		return $entityToPopulate;
+	}
 
 	public function fetchAll(bool $constructFullyPopulatedEntity = false)
 	{
@@ -53,7 +57,7 @@ abstract class EntityModel extends BaseModel
 		if ($databaseResult instanceof static) { // Check Database Retrieval
 			$entityObject = $this->entityClassName::getFromArray($databaseResult->toArray());
 			if ($entityObject instanceof $this->entityClassName) { // Check Data Object Creation
-					$return = $entityObject;
+					$return = ($constructFullyPopulatedEntity ? $this->populateEntity($entityObject) : $entityObject);
 				} else { // Middle of Check Data Object Creation
 					\Log::debug(sprintf('Failed to make %s object', $this->entityClassName), $databaseResult->toArray());
 				} // End of Check Data Object Creation
