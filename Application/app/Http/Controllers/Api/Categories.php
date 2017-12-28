@@ -23,6 +23,7 @@ class Categories extends Controller // @todo Change Parent Class
 	public function single($id = null)
 	{
 		// @todo Need Validation of ID Field
+
 		$return = (new CategoriesModel())->fetchById($id);
 		return '<pre>' . ($return instanceof Category ? print_r($return, true) : 'Not Found') . '</pre>';
 	}
@@ -30,6 +31,7 @@ class Categories extends Controller // @todo Change Parent Class
 	public function getCategoriesFromAuthorId($id = null)
 	{
 		// @todo Need Validation of ID Field
+		// @todo Need to Properly Index Payload with Entity Name
 
 		$author = (new AuthorModel())->fetchById($id);
 		if ($author instanceof Author) { // Check Author Retrieval

@@ -22,7 +22,7 @@ class Books extends EntityController
 		if ($category instanceof Category) { // Check Category Retrieval
 			$retrieved = (new BookModel())->fetchCategoryBooks($category);
 			if (is_array($retrieved) && count($retrieved)) { // Check Retrieved Authors
-				$return = $this->okResponse($this->convertArrayOfEntitiesToArrayOfArrays($retrieved));
+				$return = $this->entityOnlyDataResponse($this->convertArrayOfEntitiesToArrayOfArrays($retrieved));
 			} else { // Middle of Check Retrieved Authors
 				$return = $this->notFoundResponse();
 			} // End of Check Retrieved Authors
