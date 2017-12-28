@@ -25,5 +25,3 @@ Route::get('/authors/{id}', 'Api\Authors@single');
 
 Route::get('/categories', 'Api\Categories@index');
 Route::get('/categories/{id}', 'Api\Categories@single');
-
-Route::get('/test', 'Api\Test@index');
