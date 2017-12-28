@@ -122,4 +122,19 @@ abstract class EntityController extends BaseController
 		$classNamePieces = explode('\\', $fullyNamespacedClassName);
 		return array_pop($classNamePieces);
 	}
+
+	public function getPayloadIndexName()
+	{
+		return $this->payloadIndexName;
+	}
+
+	public function getEntityClassName()
+	{
+		return $this->entityClassName;
+	}
+
+	public function getEntityModelName()
+	{
+		return $this->getEntityModelName;
+	}
 }
