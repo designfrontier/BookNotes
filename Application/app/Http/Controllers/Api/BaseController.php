@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Traits\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 abstract class BaseController extends Controller
 {
+	use Validator;
+
 	protected $request;
 
 	public function __construct(Request $request)
@@ -37,5 +40,10 @@ abstract class BaseController extends Controller
 	protected function notFoundResponse(): JsonResponse
 	{
 		return $this->errorResponse('Not found', 404);
+	}
+
+	protected function invalidIdResponse(string $id, string $idResourceName = null): JsonResponse
+	{
+		return $this->errorResponse('Invalid ' . (!empty($idResourceName) ? $idResourceName . ' ' : null) . 'ID');
 	}
 }

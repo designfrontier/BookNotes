@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Data\EntityObject;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Models\EntityModel;
-use App\Traits\Validator;
 use Illuminate\Http\JsonResponse;
 
 abstract class EntityController extends BaseController
 {
-	use Validator;
-
 	protected $entityClassName;
 
 	protected $entityModelName;
@@ -101,7 +98,7 @@ abstract class EntityController extends BaseController
 				$return = $this->notFoundResponse();
 			} // End of Check if Entity Retrieved from DB
 		} else { // Middle of Validate Passed ID Parameter
-			$return = $this->errorResponse(sprintf('Invalid ID: %s', $id));
+			$return = $this->invalidIdResponse($id, $this->getClassNameWithoutNamespace($this->entityClassName));
 		} // End of Validate Passed ID Parameter
 		return $return;
 	}
@@ -123,17 +120,17 @@ abstract class EntityController extends BaseController
 		return array_pop($classNamePieces);
 	}
 
-	public function getPayloadIndexName()
+	public function getPayloadIndexName(): string
 	{
 		return $this->payloadIndexName;
 	}
 
-	public function getEntityClassName()
+	public function getEntityClassName(): string
 	{
 		return $this->entityClassName;
 	}
 
-	public function getEntityModelName()
+	public function getEntityModelName(): string
 	{
 		return $this->getEntityModelName;
 	}

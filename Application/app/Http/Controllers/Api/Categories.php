@@ -6,9 +6,8 @@ use App\Data\Author;
 use App\Data\Category;
 use App\Models\Authors as AuthorModel;
 use App\Models\Categories as CategoriesModel;
-use App\Http\Controllers\Controller; // @todo Remove This
 
-class Categories extends Controller // @todo Change Parent Class
+class Categories extends BaseController
 {
 	public function index()
 	{
