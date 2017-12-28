@@ -24,17 +24,17 @@ abstract class BaseController extends Controller
 		} // End of Verify Request Accepts JSON
 	}
 
-	protected function okResponse(array $responsePayload, int $statusCode = 200)
+	protected function okResponse(array $responsePayload, int $statusCode = 200): JsonResponse
 	{
 		return new JsonResponse($responsePayload, $statusCode);
 	}
 
-	protected function errorResponse(string $errorMessage, int $statusCode = 400)
+	protected function errorResponse(string $errorMessage, int $statusCode = 400): JsonResponse
 	{
 		return new JsonResponse(array('error' => $errorMessage), $statusCode);
 	}
 
-	protected function notFoundResponse()
+	protected function notFoundResponse(): JsonResponse
 	{
 		return $this->errorResponse('Not found', 404);
 	}

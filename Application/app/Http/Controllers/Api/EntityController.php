@@ -6,6 +6,7 @@ use App\Data\EntityObject;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Models\EntityModel;
 use App\Traits\Validator;
+use Illuminate\Http\JsonResponse;
 
 abstract class EntityController extends BaseController
 {
@@ -68,23 +69,29 @@ abstract class EntityController extends BaseController
 		return $return;
 	}
 
-	public function index()
+	public function index(): JsonResponse
 	{
 		$retrieved = (new $this->entityModelName())->fetchAll($this->checkRetrieveFullyPopulatedEntityObject());
 		if (is_array($retrieved) && count($retrieved)) { // Check for Retrieved Entities from DB
-			$payload = array();
-			foreach ($retrieved as $currentEntityObject) { // Loop through Retrieved Entities
-				$payload[] = $currentEntityObject->toArray();
-			} // End of Loop through Retrieved Entities
-			unset($retrieved, $currentEntityObject);
-			$return = $this->entityOnlyDataResponse($payload);
+			$return = $this->entityOnlyDataResponse($this->convertArrayOfEntitiesToArrayOfArrays($retrieved));
 		} else { // Middle of Check for Retrieved Entities from DB
 			$return = $this->notFoundResponse();
 		} // End of Check for Retrieved Entities from DB
 		return $return;
 	}
 
-	public function single($id = null)
+	protected function convertArrayOfEntitiesToArrayOfArrays(array $arrayOfEntities): array
+	{
+		$return = array();
+		foreach ($arrayOfEntities as $currentEntityObject) { // Loop through Passed Array
+			if ($currentEntityObject instanceof EntityObject) { // Validate Current Entity Object is What it Should Be
+				$return[] = $currentEntityObject->toArray();
+			} // End of Validate Current Entity Object is What it Should Be
+		} // End of Loop through Passed Array
+		return $return;
+	}
+
+	public function single($id = null): JsonResponse
 	{
 		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
 			$retrieved = (new $this->entityModelName())->fetchById($id, $this->checkRetrieveFullyPopulatedEntityObject());
@@ -99,17 +106,18 @@ abstract class EntityController extends BaseController
 		return $return;
 	}
 
-	protected function notFoundResponse()
+	protected function notFoundResponse(string $fullyNamespacedResourceName = null): JsonResponse
 	{
-		return $this->errorResponse(sprintf('%s not found', $this->getClassNameWithoutNamespace($this->entityClassName)), 404);
+		$resourceClassName = (empty($fullyNamespacedResourceName) ? $this->entityClassName : $fullyNamespacedResourceName);
+		return $this->errorResponse(sprintf('%s not found', $this->getClassNameWithoutNamespace($resourceClassName)), 404);
 	}
 
-	protected function entityOnlyDataResponse(array $responsePayloadData)
+	protected function entityOnlyDataResponse(array $responsePayloadData): JsonResponse
 	{
 		return $this->okResponse(array($this->payloadIndexName => $responsePayloadData));
 	}
 
-	protected function getClassNameWithoutNamespace(string $fullyNamespacedClassName)
+	protected function getClassNameWithoutNamespace(string $fullyNamespacedClassName): string
 	{
 		$classNamePieces = explode('\\', $fullyNamespacedClassName);
 		return array_pop($classNamePieces);

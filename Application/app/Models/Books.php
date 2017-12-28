@@ -8,7 +8,6 @@ use App\Data\Category;
 use App\Data\EntityObject;
 use App\Models\Authors as AuthorModel;
 use App\Models\Categories as CategoryModel;
-use Illuminate\Database\Eloquent\Collection;
 
 class Books extends EntityModel
 {
@@ -29,26 +28,21 @@ class Books extends EntityModel
 
 	public function fetchAuthorBooks(Author $author):array
 	{
-		$return = array();
-		$retrieved = $this->select('books.*')
-			->join('book_authors', 'book_authors.book_id', '=', 'books.id')
-			->where('book_authors.author_id', $author->id)
-			->get();
-		if ($retrieved instanceof Collection) { // Check for DB Results
-			foreach ($retrieved as $currentBook) { // Loop through DB Results
-				$currentBookObject = Book::getFromArray($currentBook->toArray());
-				if ($currentBookObject instanceof Book) { // Check Object Creation
-					$return[] = $currentBookObject;
-				} // End of Check Object Creation
-			} // End of Loop through DB Results
-		} // End of Check for DB Results
-		return $return;
+		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+			$this->select('books.*')
+				->join('book_authors', 'book_authors.book_id', '=', 'books.id')
+				->where('book_authors.author_id', $author->id),
+			Book::class
+		);
 	}
 
 	public function fetchCategoryBooks(Category $category):array
 	{
-		$return = array();
-		// @todo Look Up Books by Category
-		return $return;
+		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+			$this->select('books.*')
+				->join('book_categories', 'book_categories.book_id', '=', 'books.id')
+				->where('book_categories.category_id', $category->id),
+			Book::class
+		);
 	}
 }
