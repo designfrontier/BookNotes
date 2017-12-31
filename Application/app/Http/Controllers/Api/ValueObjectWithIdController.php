@@ -33,6 +33,27 @@ abstract class ValueObjectWithIdController extends ValueObjectController
 		return $this->okResponse(array($this->payloadIndexName => $responsePayloadData));
 	}
 
+	protected function lookupCurrentValueObjectFromRetrievalValueObjectId(int $retrievalId, ValueObjectWithIdModel $retrievalValueObjectModel, string $retrievalModelMethod): JsonResponse
+	{
+		$retrievalValueObjectClassName = $retrievalValueObjectModel->getValueObjectClassName();
+		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $retrievalId)) { // Validate Passed ID Parameter
+			$retrievalValueObject = (new $retrievalValueObjectModel())->fetchById($filteredId);
+			if ($retrievalValueObject instanceof $retrievalValueObjectClassName) { // Check Retrieval Value Object Retrieval
+				$retrieved = (new $this->valueObjectModelName())->$retrievalModelMethod($retrievalValueObject);
+				if (is_array($retrieved) && count($retrieved)) { // Check Retrieved Authors
+					$return = $this->valueObjectOnlyDataResponse($this->convertArrayOfValueObjectsToArrayOfArrays($retrieved));
+				} else { // Middle of Check Retrieved Authors
+					$return = $this->notFoundResponse();
+				} // End of Check Retrieved Authors
+			} else { // Middle of Check Category Retrieval
+				$return = $this->notFoundResponse($retrievalValueObjectClassName);
+			} // End of Check Category Retrieval
+		} else { // Middle of Validate Passed ID Parameter
+			$return = $this->invalidIdResponse($retrievalId, $this->getClassNameWithoutNamespace($retrievalValueObjectClassName));
+		} // End of Validate Passed ID Parameter
+		return $return;
+	}
+
 	public function index(): JsonResponse
 	{
 		$retrieved = (new $this->valueObjectModelName())->fetchAll($this->checkRetrieveFullyPopulatedValueObject());

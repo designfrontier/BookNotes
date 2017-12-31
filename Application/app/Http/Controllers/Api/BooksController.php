@@ -16,21 +16,6 @@ class BooksController extends EntityController
 
 	public function getBooksFromCategoryId($id = null): JsonResponse
 	{
-		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
-			$category = (new CategoriesModel())->fetchById($filteredId);
-			if ($category instanceof Category) { // Check Category Retrieval
-				$retrieved = (new BooksModel())->fetchCategoryBooks($category);
-				if (is_array($retrieved) && count($retrieved)) { // Check Retrieved Authors
-					$return = $this->valueObjectOnlyDataResponse($this->convertArrayOfValueObjectsToArrayOfArrays($retrieved));
-				} else { // Middle of Check Retrieved Authors
-					$return = $this->notFoundResponse();
-				} // End of Check Retrieved Authors
-			} else { // Middle of Check Category Retrieval
-				$return = $this->notFoundResponse(Category::class);
-			} // End of Check Category Retrieval
-		} else { // Middle of Validate Passed ID Parameter
-			$return = $this->invalidIdResponse($id, $this->getClassNameWithoutNamespace(Category::class));
-		} // End of Validate Passed ID Parameter
-		return $return;
+		return $this->lookupCurrentValueObjectFromRetrievalValueObjectId((int) $id, new CategoriesModel(), 'fetchCategoryBooks');
 	}
 }
