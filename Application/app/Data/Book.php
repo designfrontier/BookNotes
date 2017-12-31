@@ -5,6 +5,7 @@ namespace App\Data;
 use App\Data\Author;
 use App\Data\Category;
 use App\Data\Note;
+use App\Data\ReadingList;
 use App\Exceptions\MissingRequiredParameterException;
 
 class Book extends EntityObject
@@ -40,7 +41,8 @@ class Book extends EntityObject
 			'publishedDate'     => null,
 			'authors'           => array(),
 			'categories'        => array(),
-			'notes'             => array()
+			'notes'             => array(),
+			'readingLists'      => array()
 		));
 	}
 
@@ -56,16 +58,21 @@ class Book extends EntityObject
 
 	public function addCategories(array $categoriesToAdd): int
 	{
-		return $this->addArrayOfEntitiesToDataAttribute($categoriesToAdd, 'categories', Category::class);
+		return $this->addArrayOfValueObjectsToDataAttribute($categoriesToAdd, 'categories', Category::class);
 	}
 
 	public function addAuthors(array $authorsToAdd): int
 	{
-		return $this->addArrayOfEntitiesToDataAttribute($authorsToAdd, 'authors', Author::class);
+		return $this->addArrayOfValueObjectsToDataAttribute($authorsToAdd, 'authors', Author::class);
 	}
 
 	public function addNotes(array $notesToAdd): int
 	{
-		return $this->addArrayOfEntitiesToDataAttribute($notesToAdd, 'notes', Note::class);
+		return $this->addArrayOfValueObjectsToDataAttribute($notesToAdd, 'notes', Note::class);
+	}
+
+	public function addReadingLists(array $readingListsToAdd): int
+	{
+		return $this->addArrayOfValueObjectsToDataAttribute($readingListsToAdd, 'readingLists', ReadingList::class);
 	}
 }

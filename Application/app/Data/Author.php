@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Data\Book;
 use App\Exceptions\MissingRequiredParameterException;
 
 class Author extends EntityObject
@@ -51,6 +52,6 @@ class Author extends EntityObject
 
 	public function addBooks(array $booksToAdd): int
 	{
-		return $this->addArrayOfEntitiesToDataAttribute($booksToAdd, 'books', Book::class);
+		return $this->addArrayOfValueObjectsToDataAttribute($booksToAdd, 'books', Book::class);
 	}
 }

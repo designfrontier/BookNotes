@@ -28,3 +28,7 @@ Route::get('/authors/category/{id}', 'Api\AuthorsController@getAuthorsFromCatego
 Route::get('/categories', 'Api\CategoriesController@index');
 Route::get('/categories/{id}', 'Api\CategoriesController@single');
 Route::get('/categories/author/{id}', 'Api\CategoriesController@getCategoriesFromAuthorId');
+
+Route::get('/readingLists', 'Api\ReadingListsController@index');
+Route::get('/readingLists/{id}', 'Api\ReadingListsController@single');
+Route::get('/readingLists/book/{id}', 'Api\ReadingListsController@getReadingListsFromBookId');
