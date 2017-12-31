@@ -10,9 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class Books extends EntityController
 {
-	protected $entityClassName = Book::class;
+	protected $valueObjectClassName = Book::class;
 
-	protected $entityModelName = BookModel::class;
+	protected $valueObjectModelName = BookModel::class;
 
 	public function getBooksFromCategoryId($id = null): JsonResponse
 	{
@@ -21,7 +21,7 @@ class Books extends EntityController
 			if ($category instanceof Category) { // Check Category Retrieval
 				$retrieved = (new BookModel())->fetchCategoryBooks($category);
 				if (is_array($retrieved) && count($retrieved)) { // Check Retrieved Authors
-					$return = $this->entityOnlyDataResponse($this->convertArrayOfEntitiesToArrayOfArrays($retrieved));
+					$return = $this->valueObjectOnlyDataResponse($this->convertArrayOfValueObjectsToArrayOfArrays($retrieved));
 				} else { // Middle of Check Retrieved Authors
 					$return = $this->notFoundResponse();
 				} // End of Check Retrieved Authors

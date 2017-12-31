@@ -19,12 +19,18 @@ abstract class BaseController extends Controller
 		$this->verifyRequestAcceptsJson();
 	}
 
-	protected function verifyRequestAcceptsJson()
+	protected function verifyRequestAcceptsJson(): void
 	{
 		if (!$this->request->acceptsJson()) { // Verify Request Accepts JSON
 			$this->errorResponse('Must accept JSON response', 406)->send();
 			exit(); // Do Not Process Further
 		} // End of Verify Request Accepts JSON
+	}
+
+	protected function getClassNameWithoutNamespace(string $fullyNamespacedClassName): string
+	{
+		$classNamePieces = explode('\\', $fullyNamespacedClassName);
+		return array_pop($classNamePieces);
 	}
 
 	protected function okResponse(array $responsePayload, int $statusCode = 200): JsonResponse

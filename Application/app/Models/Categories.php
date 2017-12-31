@@ -12,7 +12,7 @@ class Categories extends ValueObjectWithIdAndNameModel
 
 	public function fetchBookCategories(Book $book): array
 	{
-		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('categories.*')
 				->join('book_categories', 'book_categories.category_id', '=', 'categories.id')
 				->where('book_categories.book_id', $book->id),
@@ -22,7 +22,7 @@ class Categories extends ValueObjectWithIdAndNameModel
 
 	public function fetchAuthorCategories(Author $author): array
 	{
-		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('categories.*')
 				->distinct()
 				->join('book_categories', 'book_categories.category_id', '=', 'categories.id')

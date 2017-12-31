@@ -5,14 +5,14 @@ namespace App\Models;
 use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
-use App\Data\EntityObject;
+use App\Data\ValueObjectWithId;
 use App\Models\Books as BookModel;
 
 class Authors extends EntityModel
 {
-	protected $entityClassName = Author::class;
+	protected $valueObjectClassName = Author::class;
 
-	protected function populateEntity(EntityObject $authorToPopulate): EntityObject
+	protected function populateValueObjectWithId(ValueObjectWithId $authorToPopulate): ValueObjectWithId
 	{
 		// @todo Consider Moving this Functionality to Entity Object Itself
 		if ($authorToPopulate instanceof Author) { // Validate Passed Book Parameter
@@ -26,7 +26,7 @@ class Authors extends EntityModel
 
 	public function fetchBookAuthors(Book $book): array
 	{
-		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('authors.*')
 				->join('book_authors', 'book_authors.author_id', '=', 'authors.id')
 				->where('book_authors.book_id', $book->id),
@@ -36,7 +36,7 @@ class Authors extends EntityModel
 
 	public function fetchCategoryAuthors(Category $category): array
 	{
-		return $this->fetchValueObjectsWithIdAndNameFromBuilder(
+		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('authors.*')
 				->distinct()
 				->join('book_authors', 'book_authors.author_id', '=', 'authors.id')
