@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Data\Book;
+use App\Data\Author;
 use App\Data\Category;
-use App\Models\Books as BookModel;
-use App\Models\Categories as CategoryModel;
+use App\Models\AuthorsModel;
+use App\Models\CategoriesModel;
 use Illuminate\Http\JsonResponse;
 
-class Books extends EntityController
+class AuthorsController extends EntityController
 {
-	protected $valueObjectClassName = Book::class;
+	protected $valueObjectClassName = Author::class;
 
-	protected $valueObjectModelName = BookModel::class;
+	protected $valueObjectModelName = AuthorsModel::class;
 
-	public function getBooksFromCategoryId($id = null): JsonResponse
+	public function getAuthorsFromCategoryId($id = null): JsonResponse
 	{
 		if ((bool) $filteredId = static::validateNonZeroPositiveInteger((int) $id)) { // Validate Passed ID Parameter
-			$category = (new CategoryModel())->fetchById($filteredId);
+			$category = (new CategoriesModel())->fetchById($filteredId);
 			if ($category instanceof Category) { // Check Category Retrieval
-				$retrieved = (new BookModel())->fetchCategoryBooks($category);
+				$retrieved = (new AuthorsModel())->fetchCategoryAuthors($category);
 				if (is_array($retrieved) && count($retrieved)) { // Check Retrieved Authors
 					$return = $this->valueObjectOnlyDataResponse($this->convertArrayOfValueObjectsToArrayOfArrays($retrieved));
 				} else { // Middle of Check Retrieved Authors

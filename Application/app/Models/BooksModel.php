@@ -6,19 +6,21 @@ use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
 use App\Data\ValueObjectWithId;
-use App\Models\Authors as AuthorModel;
-use App\Models\Categories as CategoryModel;
+use App\Models\AuthorsModel;
+use App\Models\CategoriesModel;
 
-class Books extends EntityModel
+class BooksModel extends EntityModel
 {
+	protected $table = 'books';
+
 	protected $valueObjectClassName = Book::class;
 
 	protected function populateValueObjectWithId(ValueObjectWithId $bookToPopulate): ValueObjectWithId
 	{
 		// @todo Consider Moving this Functionality to Entity Object Itself
 		if ($bookToPopulate instanceof Book) { // Validate Passed Book Parameter
-			$bookToPopulate->addCategories((new CategoryModel())->fetchBookCategories($bookToPopulate));
-			$bookToPopulate->addAuthors((new AuthorModel())->fetchBookAuthors($bookToPopulate));
+			$bookToPopulate->addCategories((new CategoriesModel())->fetchBookCategories($bookToPopulate));
+			$bookToPopulate->addAuthors((new AuthorsModel())->fetchBookAuthors($bookToPopulate));
 
 			// @todo Add Notes
 

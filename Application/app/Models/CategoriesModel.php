@@ -6,8 +6,10 @@ use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
 
-class Categories extends ValueObjectWithIdAndNameModel
+class CategoriesModel extends ValueObjectWithIdAndNameModel
 {
+	protected $table = 'categories';
+
 	protected $valueObjectClassName = Category::class;
 
 	public function fetchBookCategories(Book $book): array
