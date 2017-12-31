@@ -50,14 +50,14 @@ abstract class ValueObjectWithIdModel extends ValueObjectModel
 		} // End of Check for (Required) Value Object Class Name
 	}
 
-	protected function fetchValueObjectsWithIdFromBuilder(Builder $builder, string $valueObjectClassName): array
+	protected function fetchValueObjectsWithIdFromBuilder(Builder $builder): array
 	{
 		$return = array();
 		$retrieved = $builder->get();
 		if ($retrieved instanceof Collection) { // Check for DB Results
 			foreach ($retrieved as $currentValueObjectResult) { // Loop through DB Results
-				$currentValueObject = $valueObjectClassName::getFromArray($currentValueObjectResult->toArray());
-				if ($currentValueObject instanceof $valueObjectClassName) { // Check Object Creation
+				$currentValueObject = $this->valueObjectClassName::getFromArray($currentValueObjectResult->toArray());
+				if ($currentValueObject instanceof $this->valueObjectClassName) { // Check Object Creation
 					$return[] = $currentValueObject;
 				} // End of Check Object Creation
 			} // End of Loop through DB Results

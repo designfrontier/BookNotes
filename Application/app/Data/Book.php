@@ -2,6 +2,9 @@
 
 namespace App\Data;
 
+use App\Data\Author;
+use App\Data\Category;
+use App\Data\Note;
 use App\Exceptions\MissingRequiredParameterException;
 
 class Book extends EntityObject
@@ -20,9 +23,11 @@ class Book extends EntityObject
 			} else { // Middle of Validate Required Type Parameter
 				throw new MissingRequiredParameterException('Missing required type parameter');
 			} // End of Validate Required Type Parameter
-
-			// @todo Add Validation of Published Date
-
+			if (isset($rawData['published_date']) && !empty($rawData['published_date'])) { // Validate Published Date Parameter
+				if ($publishedDate = static::validateDateTimeString($rawData['published_date'])) { // Verify Published Date Format
+					$return['publishedDate'] = $publishedDate;
+				} // End of Verify Published Date Format
+			} // End of Validate Published Date Parameter
 		} // End of Check if Raw Data Passed Validation in Parent
 		return $return;
 	}
@@ -57,5 +62,10 @@ class Book extends EntityObject
 	public function addAuthors(array $authorsToAdd): int
 	{
 		return $this->addArrayOfEntitiesToDataAttribute($authorsToAdd, 'authors', Author::class);
+	}
+
+	public function addNotes(array $notesToAdd): int
+	{
+		return $this->addArrayOfEntitiesToDataAttribute($notesToAdd, 'notes', Note::class);
 	}
 }

@@ -21,9 +21,7 @@ class BooksModel extends EntityModel
 		if ($bookToPopulate instanceof Book) { // Validate Passed Book Parameter
 			$bookToPopulate->addCategories((new CategoriesModel())->fetchBookCategories($bookToPopulate));
 			$bookToPopulate->addAuthors((new AuthorsModel())->fetchBookAuthors($bookToPopulate));
-
-			// @todo Add Notes
-
+			$bookToPopulate->addNotes((new NotesModel())->fetchBookNotes($bookToPopulate));
 		} // End of Validate Passed Book Parameter
 		return $bookToPopulate;
 	}
@@ -33,8 +31,7 @@ class BooksModel extends EntityModel
 		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('books.*')
 				->join('book_authors', 'book_authors.book_id', '=', 'books.id')
-				->where('book_authors.author_id', $author->id),
-			Book::class
+				->where('book_authors.author_id', $author->id)
 		);
 	}
 
@@ -43,8 +40,7 @@ class BooksModel extends EntityModel
 		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('books.*')
 				->join('book_categories', 'book_categories.book_id', '=', 'books.id')
-				->where('book_categories.category_id', $category->id),
-			Book::class
+				->where('book_categories.category_id', $category->id)
 		);
 	}
 }

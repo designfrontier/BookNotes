@@ -29,8 +29,7 @@ class CategoriesModel extends ValueObjectWithIdAndNameModel
 				->distinct()
 				->join('book_categories', 'book_categories.category_id', '=', 'categories.id')
 				->join('book_authors', 'book_authors.book_id', '=', 'book_categories.book_id')
-				->where('book_authors.author_id', $author->id),
-			Category::class
+				->where('book_authors.author_id', $author->id)
 		);
 	}
 }

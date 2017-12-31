@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 class InitializeTables extends Migration
 {
 	protected $tablesToCreate = array(
-		'books'                 => "`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `title` VARCHAR(255) NOT NULL, `type` ENUM('Fiction','Non-Fiction','Fiction based on Fact') NOT NULL DEFAULT 'Fiction', `published_date` DATETIME NULL, PRIMARY KEY (`id`), INDEX `BOOK_TYPE` (`type` ASC), UNIQUE INDEX `title_UNIQUE` (`title` ASC)",
+		'books'                 => "`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `title` VARCHAR(255) NOT NULL, `type` ENUM('Fiction','Non-Fiction','Fiction based on Fact') NOT NULL DEFAULT 'Fiction', `published_date` DATE NULL, PRIMARY KEY (`id`), INDEX `BOOK_TYPE` (`type` ASC), UNIQUE INDEX `title_UNIQUE` (`title` ASC)",
 		'authors'               => "`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `first_name` VARCHAR(255) NULL, `middle_name` VARCHAR(255) NULL, `last_name` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `FULL_NAME_UNIQUE` (`last_name` ASC, `first_name` ASC, `middle_name` ASC)",
 		'pseudonyms'            => "`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `first_name` VARCHAR(255) NULL, `middle_name` VARCHAR(255) NULL, `last_name` VARCHAR(255) NOT NULL, `author_id` INT UNSIGNED NOT NULL, PRIMARY KEY (`id`), INDEX `P_FULL_NAME` (`last_name` ASC, `first_name` ASC, `middle_name` ASC), INDEX `P_AUTHOR_idx` (`author_id` ASC), CONSTRAINT `P_AUTHOR` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
 		'contribution_types'    => "`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `name` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`), INDEX `C_NAMES` (`name` ASC), UNIQUE INDEX `name_UNIQUE` (`name` ASC)",

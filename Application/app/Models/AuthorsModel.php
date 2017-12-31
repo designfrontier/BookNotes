@@ -31,8 +31,7 @@ class AuthorsModel extends EntityModel
 		return $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('authors.*')
 				->join('book_authors', 'book_authors.author_id', '=', 'authors.id')
-				->where('book_authors.book_id', $book->id),
-			Author::class
+				->where('book_authors.book_id', $book->id)
 		);
 	}
 
@@ -43,8 +42,7 @@ class AuthorsModel extends EntityModel
 				->distinct()
 				->join('book_authors', 'book_authors.author_id', '=', 'authors.id')
 				->join('book_categories', 'book_categories.book_id', '=', 'book_authors.book_id')
-				->where('book_categories.category_id', $category->id),
-			Author::class
+				->where('book_categories.category_id', $category->id)
 		);
 	}
 }
