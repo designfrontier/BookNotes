@@ -10,7 +10,7 @@ use App\Models\BooksModel;
 
 class AuthorsModel extends EntityModel
 {
-    protected $table = 'authors';
+	protected $table = 'authors';
 
 	protected $valueObjectClassName = Author::class;
 

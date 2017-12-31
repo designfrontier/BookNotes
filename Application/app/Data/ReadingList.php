@@ -28,11 +28,6 @@ class ReadingList extends ValueObjectWithIdAndName
 		return array_merge(parent::getRestrictedAttributesArray(), array('books'));
 	}
 
-	public function __toString(): string
-	{
-		return $this->data['title'];
-	}
-
 	public function addBooks(array $booksToAdd): int
 	{
 		return $this->addArrayOfValueObjectsToDataAttribute($booksToAdd, 'books', Book::class);
