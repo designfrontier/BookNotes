@@ -41,7 +41,7 @@ class InitializeTables extends Migration
 	 */
 	public function down()
 	{
-		foreach (array_keys($this->tablesToCreate) as $currentTableName) { // Loop through Tables to Create
+		foreach (array_reverse(array_keys($this->tablesToCreate)) as $currentTableName) { // Loop through Tables to Create
 			$this->dropTable($currentTableName);
 		} // End of Loop through Tables to Create
 	}
