@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Data\Book;
+use App\Data\ContributionType;
 use App\Exceptions\MissingRequiredParameterException;
 
 class Author extends EntityObject
@@ -29,17 +30,18 @@ class Author extends EntityObject
 	protected function initializeDataAttribute()
 	{
 		return array_merge(parent::initializeDataAttribute(), array(
-			'firstName'     => null,
-			'middleName'    => null,
-			'lastName'      => null,
-			'books'         => array(),
-			'pseudonyms'    => array()
+			'firstName'         => null,
+			'middleName'        => null,
+			'lastName'          => null,
+			'books'             => array(),
+			'contributionTypes' => array(),
+			'pseudonyms'        => array()
 		));
 	}
 
 	protected function getRestrictedAttributesArray()
 	{
-		return array_merge(parent::getRestrictedAttributesArray(), array('books', 'pseudonyms'));
+		return array_merge(parent::getRestrictedAttributesArray(), array('books', 'contributionTypes', 'pseudonyms'));
 	}
 
 	public function __toString(): string
@@ -53,5 +55,10 @@ class Author extends EntityObject
 	public function addBooks(array $booksToAdd): int
 	{
 		return $this->addArrayOfValueObjectsToDataAttribute($booksToAdd, 'books', Book::class);
+	}
+
+	public function addContributionTypes(array $contributionTypesToAdd): int
+	{
+		return $this->addArrayOfValueObjectsToDataAttribute($contributionTypesToAdd, 'contributionTypes', ContributionType::class);
 	}
 }

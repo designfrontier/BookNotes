@@ -6,7 +6,6 @@ use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
 use App\Data\ValueObjectWithId;
-use App\Models\BooksModel;
 
 class AuthorsModel extends EntityModel
 {
@@ -28,11 +27,16 @@ class AuthorsModel extends EntityModel
 
 	public function fetchBookAuthors(Book $book): array
 	{
-		return $this->fetchValueObjectsWithIdFromBuilder(
+		$authorsArray = $this->fetchValueObjectsWithIdFromBuilder(
 			$this->select('authors.*')
 				->join('book_authors', 'book_authors.author_id', '=', 'authors.id')
 				->where('book_authors.book_id', $book->id)
 		);
+		$contributionTypesModel = new ContributionTypesModel();
+		foreach ($authorsArray as $currentAuthor) { // Loop through Book Authors
+			$currentAuthor->addContributionTypes($contributionTypesModel->fetchBookAuthorContributionType($book, $currentAuthor));
+		} // End of Loop through Book Authors
+		return $authorsArray;
 	}
 
 	public function fetchCategoryAuthors(Category $category): array
