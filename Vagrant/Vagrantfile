@@ -28,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	
 	# Forwarded Ports
 	config.vm.network "forwarded_port", guest:80, host:8080
+	config.vm.network "forwarded_port", guest:3306, host:6033
 
 	# Shared Folders
 	config.vm.synced_folder "../Application", "/var/www/booknotes", owner: "www-data", group: "vagrant", options: ["dmode=775", "fmode=664"]
