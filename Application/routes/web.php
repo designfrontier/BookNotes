@@ -14,4 +14,4 @@
 Route::get('/', 'Web\HomeController@index');
 
 Route::get('/books', 'Web\BooksController@index');
-Route::get('/books/{$id}', 'Web\BooksController@single');
+Route::get('/books/{id}', 'Web\BooksController@single');
