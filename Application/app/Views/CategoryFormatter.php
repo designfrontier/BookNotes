@@ -11,12 +11,12 @@ class CategoryFormatter extends ValueObjectWithIdAndNameFormatter
 
 	protected $riverSubItemHeader = 'Category(s)';
 
-	public function formatAsRiverMainItem(ValueObjectWithId $valueObjectWithId): string
+	public function formatAsRiverMainItem(ValueObjectWithId $valueObjectWithId): ?string
 	{
 
 	}
 
-	public function formatAsRiverSubItem(ValueObjectWithId $valueObjectWithId): string
+	public function formatAsRiverSubItem(ValueObjectWithId $valueObjectWithId): ?string
 	{
 		return '<li class="category">Insert Category Here</li>';
 	}

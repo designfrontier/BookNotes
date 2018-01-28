@@ -32,7 +32,7 @@ abstract class ValueObjectWithIdFormatter extends ValueObjectFormatter
 		} // End of Validate River Sub Item Header Present
 	}
 
-	abstract public function formatAsRiverMainItem(ValueObjectWithId $valueObjectWithId): string;
+	abstract public function formatAsRiverMainItem(ValueObjectWithId $valueObjectWithId): ?string;
 
 	public function formatAsRiverSubList(array $arrayOfRiverSubItems): ?string
 	{
@@ -53,5 +53,5 @@ abstract class ValueObjectWithIdFormatter extends ValueObjectFormatter
 		return $return;
 	}
 
-	abstract public function formatAsRiverSubItem(ValueObjectWithId $valueObjectWithId): string;
+	abstract public function formatAsRiverSubItem(ValueObjectWithId $valueObjectWithId): ?string;
 }
