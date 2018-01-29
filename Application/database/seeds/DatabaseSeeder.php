@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
 			ContributionTypesSeeder::class,
 			AuthorsSeeder::class,
 			CategoriesSeeder::class,
+			PublisherSeeder::class,
 			BooksSeeder::class,
 			BookAuthorsSeeder::class,
 			BookCategoriesSeeder::class
