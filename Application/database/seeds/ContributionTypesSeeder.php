@@ -12,6 +12,9 @@ class ContributionTypesSeeder extends BaseSeeder
 		array(3, 'Preface'),
 		array(4, 'Forward'),
 		array(5, 'Introduction'),
-		array(6, 'Translator')
+		array(6, 'Translator'),
+		array(7, 'Illustrator'),
+		array(8, 'Editor'),
+		array(9, 'Photographer')
 	);
 }
