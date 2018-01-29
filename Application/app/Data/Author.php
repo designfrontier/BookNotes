@@ -33,9 +33,9 @@ class Author extends EntityObject
 			'firstName'         => null,
 			'middleName'        => null,
 			'lastName'          => null,
+			'parentAuthorId'    => null,
 			'books'             => array(),
-			'contributionTypes' => array(),
-			'pseudonyms'        => array()
+			'contributionTypes' => array()
 		));
 	}
 
