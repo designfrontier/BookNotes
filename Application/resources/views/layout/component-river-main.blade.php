@@ -1,23 +1,14 @@
 <?php
 
 use App\Views\FormatterFactory;
-use App\Views\ValueObjectFormatter;
+use App\Views\ValueObjectWithIdFormatter;
 
-	if (isset($riverItems) && is_array($riverItems) && count($riverItems)) { // Check for River Items
-		echo('<ul class="river">');
-		foreach ($riverItems as $currentRiverItem) { // Loop through River Items
-			$currentFormatter = FormatterFactory::getFormatterFromValueObject($currentRiverItem);
-			if ($currentFormatter instanceof ValueObjectFormatter) { // Check for Formatter for Current River Item
-
-
-				echo($currentFormatter->formatAsRiverMainItem($currentRiverItem));
-
-
-			} else { // Middle of Check for Formatter for Current River Item
-				echo('<li>No Formatter Found: <pre>' . print_r($currentRiverItem, true) . '</pre></li>');
-			} // End of Check for Formatter for Current River Item
-		} // End of Loop through River Items
-		echo('</ul>');
-	} else { // Middle of Check for River Items
-		echo('<p class="river missing-data">There are no items to display.</p>');
-	} // End of Check for River Items
+	if (isset($riverFormatter) && ($riverFormatter instanceof ValueObjectWithIdFormatter)) { // Check for River Formatter
+		if (isset($riverItems) && is_array($riverItems) && count($riverItems)) { // Check for River Items
+			echo($riverFormatter->formatAsRiverMainList($riverItems));
+		} else { // Middle of Check for River Items
+			echo('<p class="river missing-data">There are no items to display.</p>');
+		} // End of Check for River Items
+	} else { // Middle of Check for River Formatter
+		echo('<p class="river missing-formatter">Cannot display data.</p>');
+	} // End of Check for River Formatter

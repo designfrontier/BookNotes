@@ -4,20 +4,13 @@ namespace App\Http\Controllers\Web;
 
 use App\Data\Book;
 use App\Models\BooksModel;
+use App\Views\FormatterFactory;
 
 class BooksController extends BaseController
 {
 	protected $valueObjectClassName = Book::class;
 
-	public function index()
-	{
-		return $this->renderView(array(
-			'riverItems'    => (new BooksModel())->fetchAll(true),
-			'version'       => \App::version(),
-			'pageTitle'     => 'Browse Books'
-		));
-
-	}
+	protected $indexPageTitle = 'Browse Books';
 
 	public function single($id = null)
 	{

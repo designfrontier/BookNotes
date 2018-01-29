@@ -25,7 +25,8 @@ abstract class BaseController extends Controller
 	{
 		return array(
 			'applicationName'   => config('app.name'),
-			'pageTitle'         => config('app.name')
+			'pageTitle'         => config('app.name'),
+			'version'           => \App::version()
 		);
 	}
 

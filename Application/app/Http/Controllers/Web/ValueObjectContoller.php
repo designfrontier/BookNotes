@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Traits\ValueObjectControllerClassAndModelAttributes;
 
-abstract ValueObjectContoller extends BaseController
+abstract class ValueObjectContoller extends BaseController
 {
 	use ValueObjectControllerClassAndModelAttributes;
 

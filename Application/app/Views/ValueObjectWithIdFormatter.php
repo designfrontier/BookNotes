@@ -32,6 +32,25 @@ abstract class ValueObjectWithIdFormatter extends ValueObjectFormatter
 		} // End of Validate River Sub Item Header Present
 	}
 
+	public function formatAsRiverMainList(array $arrayOfRiverMainItems): ?string
+	{
+		$return = null;
+		if (count($arrayOfRiverMainItems) > 0) { // Check for River Main Items
+			$validRiverMainItems = 0;
+			$htmlString = '<ul class="river">';
+			foreach ($arrayOfRiverMainItems as $currentRiverMainItem) { // Loop through River Main Items
+				if ($currentRiverMainItem instanceof $this->valueObjectClassName) { // Validate Current River Main Item Data Type
+					$validRiverMainItems++;
+					$htmlString .= $this->formatRiverMainItem($currentRiverMainItem);
+				} // End of Validate Current River Main Item Data Type
+			} // End of Loop through River Main Items
+			if ($validRiverMainItems > 0) { // Check for Valid River Main Items
+				$return = $htmlString . '</ul>';
+			} // End of Check for Valid River Main Items
+		} // End of Check for River Main Items
+		return $return;
+	}
+
 	abstract public function formatAsRiverMainItem(ValueObjectWithId $valueObjectWithId): ?string;
 
 	public function formatAsRiverSubList(array $arrayOfRiverSubItems): ?string
