@@ -69,7 +69,7 @@ class AuthorsSeeder extends BaseSeeder
 		array(60, "Frederic", "", "Bastiat"),
 		array(61, "David", "", "Icke"),
 		array(62, "Edward", "Osborne", "Wilson"),
-		array(63, "", "", ""),				// HERE
+		array(63, "Kurt", "", "Vonnegut"),
 		array(64, "Carl", "", "Sagan"),
 		array(65, "Albert", "", "Einstein"),
 		array(66, "Franz", "Anton", "Mesmer"),
@@ -85,8 +85,7 @@ class AuthorsSeeder extends BaseSeeder
 		array(76, "Alexander", "Sasha", "Shulgin"),
 		array(77, "Ann", "", "Shulgin"),
 		array(78, "Graham", "", "Hancock"),
-		array(79, "Klea", "", "McKenna"),
-		array(80, "Kurt", "", "Vonnegut")
+		array(79, "Klea", "", "McKenna")
 	);
 
 	protected $emptyToNullColumns = array('first_name', 'middle_name');

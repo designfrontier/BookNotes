@@ -111,6 +111,6 @@ class BookAuthorsSeeder extends BaseSeeder
 		array(79, 77, 1),
 		array(80, 78, 1),
 		array(81, 79, 1),
-		array(82, 80, 1)
+		array(82, 63, 1)
 	);
 }
