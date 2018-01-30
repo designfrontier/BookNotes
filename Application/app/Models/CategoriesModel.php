@@ -5,12 +5,22 @@ namespace App\Models;
 use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
+use App\Data\ValueObjectWithId;
 
 class CategoriesModel extends ValueObjectWithIdAndNameModel
 {
 	protected $table = 'categories';
 
 	protected $valueObjectClassName = Category::class;
+
+	protected function populateValueObjectWithId(ValueObjectWithId $categoryToPopulate): ValueObjectWithId
+	{
+		// @todo Consider Moving this Functionality to Entity Object Itself
+		if ($categoryToPopulate instanceof Category) { // Validate Passed Category Parameter
+			$categoryToPopulate->addBooks((new BooksModel())->fetchCategoryBooks($categoryToPopulate));
+		} // End of Validate Passed Category Parameter
+		return $categoryToPopulate;
+	}
 
 	public function fetchBookCategories(Book $book): array
 	{
