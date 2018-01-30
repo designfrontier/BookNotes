@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Traits\ValueObjectControllerClassAndModelAttributes;
+use Illuminate\Http\Request;
 
-abstract class ValueObjectContoller extends BaseController
+abstract class ValueObjectController extends BaseController
 {
 	use ValueObjectControllerClassAndModelAttributes;
 

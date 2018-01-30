@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Web;
 
-class AuthorsController extends BaseController
+use App\Data\Author;
+use App\Models\AuthorsModel;
+
+class AuthorsController extends EntityController
 {
-	public function index()
-	{
-	}
+	protected $valueObjectClassName = Author::class;
+
+	protected $valueObjectModelName = AuthorsModel::class;
+
+	protected $indexPageTitle = 'Browse Authors';
 
 	public function single()
 	{

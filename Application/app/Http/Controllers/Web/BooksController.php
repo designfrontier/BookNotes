@@ -6,9 +6,11 @@ use App\Data\Book;
 use App\Models\BooksModel;
 use App\Views\FormatterFactory;
 
-class BooksController extends BaseController
+class BooksController extends EntityController
 {
 	protected $valueObjectClassName = Book::class;
+
+	protected $valueObjectModelName = BooksModel::class;
 
 	protected $indexPageTitle = 'Browse Books';
 

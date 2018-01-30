@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web;
 use App\Data\ValueObjectWithId;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Models\ValueObjectWithIdModel;
+use App\Views\FormatterFactory;
+use Illuminate\Http\Request;
 
-abstract class ValueObjectWithIdContoller extends ValueObjectContoller
+abstract class ValueObjectWithIdController extends ValueObjectController
 {
 	protected $valueObjectClassType = ValueObjectWithId::class;
 
@@ -34,8 +36,8 @@ abstract class ValueObjectWithIdContoller extends ValueObjectContoller
 	public function index()
 	{
 		return $this->renderView(array(
-			'riverItems'        => (new $this->valueObjectModelType())->fetchAll(true),
-			'riverFormatter'    => FormatterFactory::getFormatterFromValueObjectClassName($this->valueObjectClassType),
+			'riverItems'        => (new $this->valueObjectModelName())->fetchAll(true),
+			'riverFormatter'    => FormatterFactory::getFormatterFromValueObjectClassName($this->valueObjectClassName),
 			'pageTitle'         => $this->indexPageTitle
 		));
 	}

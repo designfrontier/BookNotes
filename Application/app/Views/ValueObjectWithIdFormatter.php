@@ -41,7 +41,7 @@ abstract class ValueObjectWithIdFormatter extends ValueObjectFormatter
 			foreach ($arrayOfRiverMainItems as $currentRiverMainItem) { // Loop through River Main Items
 				if ($currentRiverMainItem instanceof $this->valueObjectClassName) { // Validate Current River Main Item Data Type
 					$validRiverMainItems++;
-					$htmlString .= $this->formatRiverMainItem($currentRiverMainItem);
+					$htmlString .= $this->formatAsRiverMainItem($currentRiverMainItem);
 				} // End of Validate Current River Main Item Data Type
 			} // End of Loop through River Main Items
 			if ($validRiverMainItems > 0) { // Check for Valid River Main Items
