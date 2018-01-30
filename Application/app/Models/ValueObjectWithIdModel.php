@@ -71,11 +71,11 @@ abstract class ValueObjectWithIdModel extends ValueObjectModel
 		return $valueObjectWithIdToPopulate;
 	}
 
-	public function fetchAll(bool $constructFullyPopulatedValueObject = false)
+	public function fetchAll(bool $constructFullyPopulatedValueObject = false): ?array
 	{
-		$return = false;
+		$return = null;
 		$databaseResult = $this->all();
-		if ($databaseResult instanceof Collection) { // Check Database Retrieval
+		if (($databaseResult instanceof Collection) && ($databaseResult->count() > 0)) { // Check Database Retrieval
 			$return = array();
 			foreach ($databaseResult as $currentResult) { // Loop through Database Results
 				$currentValueObject = $this->valueObjectClassName::getFromArray($currentResult->toArray());
@@ -89,9 +89,9 @@ abstract class ValueObjectWithIdModel extends ValueObjectModel
 		return $return;
 	}
 
-	public function fetchById(int $valueObjectId, bool $constructFullyPopulatedValueObject = false)
+	public function fetchById(int $valueObjectId, bool $constructFullyPopulatedValueObject = false): ?ValueObjectWithId
 	{
-		$return = false;
+		$return = null;
 		$databaseResult = $this->find($valueObjectId);
 		if ($databaseResult instanceof static) { // Check Database Retrieval
 			$valueObject = $this->valueObjectClassName::getFromArray($databaseResult->toArray());

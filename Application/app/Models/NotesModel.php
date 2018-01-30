@@ -12,7 +12,7 @@ class NotesModel extends EntityModel
 
 	protected $valueObjectClassName = Note::class;
 
-	public function fetchAll(bool $constructFullyPopulatedValueObject = false)
+	public function fetchAll(bool $constructFullyPopulatedValueObject = false): ?array
 	{
 		throw new InvalidUsage('Should not fetch all notes (must fetch by book or note ID).');
 	}
