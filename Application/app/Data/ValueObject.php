@@ -49,7 +49,11 @@ abstract class ValueObject
 		if (method_exists($this, 'get_' . $attributeName)) { // Check for Attribute Getter and Existence
 			$return = $this->{'get_'.$attributeName}();
 		} elseif (isset($this->data[$attributeName])) { // Middle of Check for Attribute Getter and Existence
-			$return = $this->data[$attributeName];
+			if (is_object($this->data[$attributeName])) { // Check if Attribute is an Object
+				$return = clone $this->data[$attributeName]; // Return Clone to Prevent Unexpected State Changes
+			} else { // Middle of Check if Attribute is an Object
+				$return = $this->data[$attributeName];
+			} // End of Check if Attribute is an Object
 		} else { // Middle of Check for Attribute Getter and Existence
 			throw new InvalidAttribute(sprintf('The %s->%s attribute does not exist', get_called_class(), $attributeName));
 		} // End of Check for Attribute Getter and Existence
