@@ -21,7 +21,8 @@ class Author extends EntityObject
 			if (isset($rawData['last_name']) && !empty($rawData['last_name'])) { // Validate Required Last Name Parameter
 				$return['lastName'] = (string) $rawData['last_name'];
 			} else { // Middle of Validate Required Last Name Parameter
-				throw new MissingRequiredParameterException('Missing required last name parameter (last_name)');
+				\Log::debug(sprintf('%s::%s() - Missing required last name parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
+				throw new MissingRequiredParameterException('Missing required last name parameter');
 			} // End of Validate Required Last Name Parameter
 		} // End of Check if Raw Data Passed Validation in Parent
 		return $return;
