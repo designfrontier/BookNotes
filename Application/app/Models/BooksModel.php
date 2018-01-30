@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Data\Author;
 use App\Data\Book;
 use App\Data\Category;
+use App\Data\Publisher;
 use App\Data\ReadingList;
 use App\Data\ValueObjectWithId;
 use App\Models\AuthorsModel;
@@ -54,6 +55,14 @@ class BooksModel extends EntityModel
 				->join('books_reading_lists', 'books_reading_lists.book_id', '=', 'books.id')
 				->where('books_reading_lists.list_id', $readingList->id)
 				->orderBy('books_reading_lists.order', 'asc')
+		);
+	}
+
+	public function fetchPublisherBooks(Publisher $publisher): array
+	{
+		return $this->fetchValueObjectsWithIdFromBuilder(
+			$this->select('books.*')
+				->where('publisher_id', $publisher->id)
 		);
 	}
 }
