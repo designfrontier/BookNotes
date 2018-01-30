@@ -35,3 +35,6 @@ Route::get('/contributionTypes/{id}', 'Api\ContributionTypesController@single');
 Route::get('/readingLists', 'Api\ReadingListsController@index');
 Route::get('/readingLists/{id}', 'Api\ReadingListsController@single');
 Route::get('/readingLists/book/{id}', 'Api\ReadingListsController@getReadingListsFromBookId');
+
+Route::get('/publishers', 'Api\PublishersController@index');
+Route::get('/publishers/{id}', 'Api\PublishersController@single');
