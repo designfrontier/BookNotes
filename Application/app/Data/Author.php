@@ -2,8 +2,6 @@
 
 namespace App\Data;
 
-use App\Data\Book;
-use App\Data\ContributionType;
 use App\Exceptions\MissingRequiredParameterException;
 
 class Author extends EntityObject
