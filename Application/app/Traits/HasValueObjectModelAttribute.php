@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Exceptions\MissingRequiredAttributeException;
+use App\Models\ValueObjectModel;
 
 trait HasValueObjectModelAttribute
 {
