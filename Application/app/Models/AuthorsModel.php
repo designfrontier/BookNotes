@@ -19,7 +19,7 @@ class AuthorsModel extends EntityModel
 		if ($authorToPopulate instanceof Author) { // Validate Passed Book Parameter
 			$authorToPopulate->addBooks((new BooksModel())->fetchAuthorBooks($authorToPopulate));
 
-			// @todo Add Pseudonyms
+			// @todo Add Parent Author
 
 		} // End of Validate Passed Book Parameter
 		return $authorToPopulate;
