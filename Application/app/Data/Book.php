@@ -2,11 +2,9 @@
 
 namespace App\Data;
 
-use App\Data\Author;
-use App\Data\Category;
-use App\Data\Note;
-use App\Data\ReadingList;
+use App\Exceptions\InvalidParameterException;
 use App\Exceptions\MissingRequiredParameterException;
+use App\Models\PublishersModel;
 
 class Book extends EntityObject
 {
@@ -31,8 +29,24 @@ class Book extends EntityObject
 					$return['publishedDate'] = $publishedDate;
 				} // End of Verify Published Date Format
 			} // End of Validate Published Date Parameter
+			if (isset($rawData['publisher_id']) && !empty($rawData['publisher_id'])) { // Check for Passed Publisher (ID) Parameter
+				if (false !== ($validatedId = static::validateNonZeroPositiveInteger($rawData['publisher_id']))) { // Check ID Validation
+					$return['publisher_id'] = $validatedId;
+				} else { // Middle of Check ID Validation
+					throw new InvalidParameterException(sprintf('Invalid Publisher (ID) parameter value: %s', print_r($rawData['publisher_id'], true)));
+				} // End of Check ID Validation
+			} else { // Middle of Check for Passed Publisher (ID) Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required Publisher (ID) parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
+				throw new MissingRequiredParameterException('Missing required Publisher (ID) parameter');
+			} // End of Check for Passed Publisher (ID) Parameter
 		} // End of Check if Raw Data Passed Validation in Parent
 		return $return;
+	}
+
+	protected function __construct(array $rawDataObjectDetails)
+	{
+		parent::__construct($rawDataObjectDetails);
+		$this->set_publisher($this->retrievePublisher($rawDataObjectDetails['publisher_id']));
 	}
 
 	protected function initializeDataAttribute()
@@ -53,12 +67,22 @@ class Book extends EntityObject
 
 	protected function getRestrictedAttributesArray()
 	{
-		return array_merge(parent::getRestrictedAttributesArray(), array('authors', 'categories', 'notes'));
+		return array_merge(parent::getRestrictedAttributesArray(), array('authors', 'categories', 'notes', 'publisher'));
 	}
 
 	public function __toString(): string
 	{
 		return $this->data['title'];
+	}
+
+	protected function retrievePublisher(int $publisherId): Publisher
+	{
+		$return = (new PublishersModel())->fetchById($publisherId);
+		if (!$return instanceof Publisher) { // Verify Publisher was Retrieved
+			\Log::debug(sprintf('%s::%s() - Publisher not found', get_called_class(), __FUNCTION__), array('Book Data' => $this->toArray(), 'Publisher ID' => $publisherId));
+			throw new InvalidParameterException('Book publisher not found');
+		} // End of Verify Publisher was Retrieved
+		return $return;
 	}
 
 	public function addCategories(array $categoriesToAdd): int
@@ -79,5 +103,10 @@ class Book extends EntityObject
 	public function addReadingLists(array $readingListsToAdd): int
 	{
 		return $this->addArrayOfValueObjectsToDataAttribute($readingListsToAdd, 'readingLists', ReadingList::class);
+	}
+
+	public function set_publisher(Publisher $publisher): Publisher
+	{
+		return $this->data['publisher'] = $publisher;
 	}
 }
