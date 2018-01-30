@@ -13,6 +13,7 @@ abstract class ValueObjectWithIdAndName extends ValueObjectWithId
 			if (isset($rawData['name']) && !empty($rawData['name'])) { // Validate Required Name Parameter
 				$return['name'] = (string) $rawData['name'];
 			} else { // Middle of Validate Required Name Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required name parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 				throw new MissingRequiredParameterException('Missing required name parameter');
 			} // End of Validate Required Name Parameter
 		} // End of Check if Raw Data Passed Validation in Parent

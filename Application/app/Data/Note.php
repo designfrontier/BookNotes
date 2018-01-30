@@ -13,15 +13,18 @@ class Note extends EntityObject
 			if (isset($rawData['note']) && !empty($rawData['note'])) { // Validate Required Title Parameter
 				$return['note'] = (string) $rawData['note'];
 			} else { // Middle of Validate Required Title Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required note parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 				throw new MissingRequiredParameterException('Missing required note parameter');
 			} // End of Validate Required Title Parameter
 			if (isset($rawData['book_id']) && !empty($rawData['book_id'])) { // Validate Required Title Parameter
 				if (false !== ($validatedId = static::validateNonZeroPositiveInteger($rawData['book_id']))) { // Check ID Validation
 					$return['bookId'] = $validatedId;
 				} else { // Middle of Check ID Validation
+					\Log::debug(sprintf('%s::%s() - Invalid book ID parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 					throw new InvalidParameterException(sprintf('Invalid book ID parameter value: %s', print_r($rawData['book_id'], true)));
 				} // End of Check ID Validation
 			} else { // Middle of Validate Required Title Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required book ID parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 				throw new MissingRequiredParameterException('Missing required book ID parameter');
 			} // End of Validate Required Title Parameter
 

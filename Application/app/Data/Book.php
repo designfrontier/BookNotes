@@ -17,11 +17,13 @@ class Book extends EntityObject
 			if (isset($rawData['title']) && !empty($rawData['title'])) { // Validate Required Title Parameter
 				$return['title'] = (string) $rawData['title'];
 			} else { // Middle of Validate Required Title Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required title parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 				throw new MissingRequiredParameterException('Missing required title parameter');
 			} // End of Validate Required Title Parameter
 			if (isset($rawData['type']) && !empty($rawData['type'])) { // Validate Required Type Parameter
 				$return['type'] = (string) $rawData['type'];
 			} else { // Middle of Validate Required Type Parameter
+				\Log::debug(sprintf('%s::%s() - Missing required type parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 				throw new MissingRequiredParameterException('Missing required type parameter');
 			} // End of Validate Required Type Parameter
 			if (isset($rawData['published_date']) && !empty($rawData['published_date'])) { // Validate Published Date Parameter

@@ -20,6 +20,7 @@ abstract class ValueObjectWithId extends ValueObject
 				throw new InvalidParameterException(sprintf('Invalid ID parameter value: %s', print_r($rawData['id'], true)));
 			} // End of Check ID Validation
 		} else { // Middle of Check for Passed ID Parameter
+			\Log::debug(sprintf('%s::%s() - Missing required ID parameter', get_called_class(), __FUNCTION__), array('Passed Data' => $rawData));
 			throw new MissingRequiredParameterException('Missing required ID parameter');
 		} // End of Check for Passed ID Parameter
 		return $return;
